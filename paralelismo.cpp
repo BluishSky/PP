@@ -6,10 +6,11 @@
 
 int main(int argc, char** argv) {
     int n = atoi(argv[1]);
-     int *v1, *v2, *v3;
+    int *v1, *v2, *v3;
     v1 = (int*)malloc(n * sizeof(int));
     v2 = (int*)malloc(n * sizeof(int));
     v3 = (int*)malloc(n * sizeof(int));
+    
     pid_t pid = fork();
 
 
