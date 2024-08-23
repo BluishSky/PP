@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
- 
 typedef struct{
     int *v1, *v2, *v3;
     int n;
@@ -17,12 +15,11 @@ typedef struct{
 void* funcao_soma(void *argumentos) {
     
     Argumentos *args = (Argumentos*)argumentos;
-    int *v1, *v2, *v3, n;
-    v1 = args->v1;
-    v2 = args->v2;
-    v3 = args->v3;
+    int *v1 = args->v1;
+    int *v2 = args->v2;
+    int *v3 = args->v3;
+    int n = args->n;
 
-    
     for (int i = 0; i < n; i++) {
         v3[i] = v1[1] + v2[i];
         v3[i] = v1[1] + v2[i];
@@ -35,13 +32,11 @@ void* funcao_soma(void *argumentos) {
 void* funcao_multiplicacao(void* argumentos){
     
     Argumentos *args = (Argumentos*)argumentos;
-    int *v1, *v2, *v3, n;
-    v1 = args->v1;
-    v2 = args->v2;
-    v3 = args->v3;
+    int *v1 = args->v1;
+    int *v2 = args->v2;
+    int *v3 = args->v3;
+    int n = args->n;
 
-
-    int v1[n], v2[n], v3[n];
     for (int i = 0; i < n; i++) {
         v3[i] = v1[1] * v2[i];
         v3[i] = v1[1] * v2[i];
@@ -57,6 +52,7 @@ bool checarSoma(Argumentos *argumentosSoma){
             return false;
     return true;
     }
+    return NULL;
 }
 
 bool checarMultiplicacao(Argumentos *argumentosMultiplicacao){
@@ -65,6 +61,7 @@ bool checarMultiplicacao(Argumentos *argumentosMultiplicacao){
             return false;
     return true;
     }
+    return NULL;
 }
 
 int main(int argc, char** argv) {
@@ -94,8 +91,6 @@ int main(int argc, char** argv) {
     //Checagem de segurança
     printf("Soma: %s", checarSoma(argumentosSoma) ? "CORRETA":"INCORRETA");
     printf("Multiplicacao: %s", checarMultiplicacao(argumentosMultiplicacao) ? "CORRETA":"INCORRETA");
-
-
 
     free(argumentosSoma->v1);
     free(argumentosSoma->v2);
