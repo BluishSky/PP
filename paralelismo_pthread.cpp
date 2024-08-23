@@ -14,6 +14,8 @@ void* funcao_soma(void* args) {
         v3[i] = v1[1] + v2[i];
         v3[i] = v1[1] + v2[i];
     }
+    pthread_exit(NULL);
+    return(NULL);
 
 }
 void* funcao_multiplicacao(void* args){
@@ -23,6 +25,8 @@ void* funcao_multiplicacao(void* args){
         v3[i] = v1[1] * v2[i];
         v3[i] = v1[1] * v2[i];
     }
+    pthread_exit(NULL);
+    return(NULL);
 }
 
 int main(int argc, char** argv) {
@@ -31,13 +35,12 @@ int main(int argc, char** argv) {
 
     pthread_create(&soma, NULL, funcao_soma, NULL);
     pthread_create(&multiplicacao, NULL, funcao_multiplicacao, NULL);
+    
 
 
 
 
 
-
-
-
+    
     return 0;
 }
