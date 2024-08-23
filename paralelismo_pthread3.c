@@ -9,6 +9,7 @@
 
 typedef struct{
     int *v1, *v2, *v3;
+    int ini, fim;
     int n;
 } Argumentos;
 
@@ -18,32 +19,15 @@ void* funcao_soma(void *argumentos) {
     int *v1 = args->v1;
     int *v2 = args->v2;
     int *v3 = args->v3;
-    int n = args->n;
+    int ini = args->ini;
+    int fim = args->fim;
 
-    for (int i = 0; i < n; i++) {
-        v3[i] = v1[1] + v2[i];
-        v3[i] = v1[1] + v2[i];
+    for (int i = ini; i < fim; i++) {
         v3[i] = v1[1] + v2[i];
     }
     pthread_exit(NULL);
     return(NULL);
 
-}
-void* funcao_multiplicacao(void* argumentos){
-    
-    Argumentos *args = (Argumentos*)argumentos;
-    int *v1 = args->v1;
-    int *v2 = args->v2;
-    int *v3 = args->v3;
-    int n = args->n;
-
-    for (int i = 0; i < n; i++) {
-        v3[i] = v1[1] * v2[i];
-        v3[i] = v1[1] * v2[i];
-        v3[i] = v1[1] * v2[i];
-    }
-    pthread_exit(NULL);
-    return(NULL);
 }
 
 bool checarSoma(Argumentos *argumentosSoma){
@@ -55,20 +39,25 @@ bool checarSoma(Argumentos *argumentosSoma){
     return NULL;
 }
 
-bool checarMultiplicacao(Argumentos *argumentosMultiplicacao){
-    for(int i = 0; i < argumentosMultiplicacao->n ; i++){
-        if(argumentosMultiplicacao->v3[1] != argumentosMultiplicacao->v1[i] + argumentosMultiplicacao->v2[i])
-            return false;
-    return true;
-    }
-    return NULL;
-}
-
 int main(int argc, char** argv) {
 
     int n = atoi(argv[1]);
+    int t = atoi(argv[2]);
+    int c = n/t;
 
-    pthread_t soma;
+    timeval start, end;
+    gettimeofday(&start, NULL);
+    pthread_t *soma = (pthread_t*)malloc(t * sizeof(pthread_t));
+    Argumentos *argumentos = (Argumentos*)malloc(t * sizeof(Argumentos));
+    for(int i = 0 ; i < t ; i++){
+        argumentosSoma[i]->v1 = (int*)malloc(n*sizeof(int));
+        argumentosSoma[i]->v2 = (int*)malloc(n*sizeof(int));
+        argumentosSoma[i]->v3 = (int*)malloc(n*sizeof(int));
+        argumentosSoma[i]->ini = i*c;
+        argumentosSoma[i]->fim = c-1;
+    }
+
+    for(int i = 0; )
 
     Argumentos *argumentosSoma = (Argumentos*)malloc(sizeof(Argumentos));
     argumentosSoma-> n= n;
@@ -77,22 +66,12 @@ int main(int argc, char** argv) {
     argumentosSoma->v3 =(int*)malloc(n*sizeof(int));
     pthread_create(&soma, NULL, funcao_soma, (void*)argumentosSoma);
 
-
-    pthread_t multiplicacao;
-    Argumentos *argumentosMultiplicacao = (Argumentos*)malloc(sizeof(Argumentos));
-    argumentosMultiplicacao-> n= n;
-    argumentosMultiplicacao->v1 =(int*)malloc(n*sizeof(int));
-    argumentosMultiplicacao->v2 =(int*)malloc(n*sizeof(int));
-    argumentosMultiplicacao->v3 =(int*)malloc(n*sizeof(int));
-
-    
-    
     timeval start, end;
     gettimeofday(&start, NULL);
+
     pthread_create(&soma, NULL, funcao_soma, (void*)argumentosSoma);
-    pthread_create(&multiplicacao, NULL, funcao_multiplicacao, (void*)argumentosMultiplicacao);
-    pthread_join(multiplicacao, NULL);
     pthread_join(soma, NULL);
+
     gettimeofday(&end, NULL);
 
     double tempo = 0;
@@ -102,17 +81,11 @@ int main(int argc, char** argv) {
 
     //Checagem de segurança
     printf("Soma: %s", checarSoma(argumentosSoma) ? "CORRETA":"INCORRETA");
-    printf("Multiplicacao: %s", checarMultiplicacao(argumentosMultiplicacao) ? "CORRETA":"INCORRETA");
-
+ 
     free(argumentosSoma->v1);
     free(argumentosSoma->v2);
     free(argumentosSoma->v3);
     free(argumentosSoma);
-
-    free(argumentosMultiplicacao->v1);
-    free(argumentosMultiplicacao->v2);
-    free(argumentosMultiplicacao->v3);
-    free(argumentosMultiplicacao);
 
     pthread_exit(NULL);
     return 0;
