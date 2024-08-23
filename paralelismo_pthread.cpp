@@ -35,12 +35,13 @@ int main(int argc, char** argv) {
 
     pthread_create(&soma, NULL, funcao_soma, NULL);
     pthread_create(&multiplicacao, NULL, funcao_multiplicacao, NULL);
-    
+
+    //verificação de eroo
+    //check_soma(v1, v2, v3);
 
 
 
 
-
-    
+    pthread_exit(NULL);
     return 0;
 }
