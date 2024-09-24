@@ -31,6 +31,7 @@ void* funcao_multiplicacao(void *argumentos) {
     pthread_exit(NULL);
     return NULL;
 }
+//a
 
 int main(int argc, char** argv) {
     pthread_t soma, multiplicacao;

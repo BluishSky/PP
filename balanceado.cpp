@@ -7,7 +7,7 @@
 
 using namespace std;
 
-mutex mtx;                 // Mutex para sincronização de threads
+mutex mtx;                 // Mutex paraa sincronização de threads
 queue<vector<int>> fila;    // Fila compartilhada entre as threads
 int contador = 0;           // Contador de cliques globais
 

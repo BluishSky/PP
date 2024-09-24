@@ -4,11 +4,12 @@
 #include <mutex>
 #include <algorithm> 
 
+
 using namespace std;
 
 mutex mtx; // mutex para garantir o acesso seguro ao contador
 
-// Estrutura básica de um Grafo
+// Estrutura básicaa de um Grafo
 struct Grafo {
     vector<vector<int>> adj; // Lista de adjacências
 
