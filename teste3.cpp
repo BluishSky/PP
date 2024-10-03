@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <condition_variable>
+#include <iostream> 
+#include <fstream>   
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -346,15 +348,32 @@ int contagem_de_cliques_serial(Graph *grafo, int k) {
 }
 
 int main(int argc, char *argv[]) {
+  if (argc < 4) {
+      fprintf(stderr, "Uso: %s <k> <t> <r>\n", argv[0]);
+      return 1; // Retorna um código de erro se os argumentos não forem suficientes
+  }
+
   int k = atoi(argv[1]);
   int t = atoi(argv[2]);
- int r = atoi(argv[3]);
+  int r = atoi(argv[3]);
+
   printf("Valor de k: %d\n", k);
   Graph *graph = new Graph;
-  int cont = 0;
+
+  if (graph == nullptr) {
+        fprintf(stderr, "Erro ao alocar memória para o grafo\n");
+        return 1; // Verifica se a alocação foi bem-sucedida
+  }
+
   graph->initialize("graph.edgelist");
   FILE *fp = fopen("graph.edgelist", "r");
+  if (fp == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo graph.edgelist\n");
+        delete graph; // Libera a memória antes de sair
+        return 1; // Termina o programa se não conseguir abrir o arquivo
+  }
   int src = 0, dst = 0;
+  int cont = 0;
 
   while (fscanf(fp, "%d %d", &src, &dst) != EOF) {
     graph->addEdge(src, dst);
@@ -374,7 +393,7 @@ int main(int argc, char *argv[]) {
   fclose(fp);
 
   graph->release();
-  free(graph);
+  delete(graph);
   return 0;
 }
 
